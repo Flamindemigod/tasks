@@ -1,27 +1,33 @@
 import React from 'react'
 import { useState } from 'react'
 import { supabase } from '../../supabaseClient'
-import { TextField, Button, CircularProgress } from '@mui/material'
+import { TextField, Button } from '@mui/material'
+import AlertError from '../AlertError'
 const Login = () => {
-  const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [open, setOpen] = useState(false);
   const [snackBarText, setSnackBarText] = useState("")
-  const handleClick = () => {
-    setOpen(true);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
   };
+
   const handleLoginMagic = async (e) => {
     e.preventDefault()
 
     try {
-      setLoading(true)
       const { error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) throw error
     } catch (error) {
-      alert(error.error_description || error.message)
+      setSnackBarText(error.error_description || error.message)
+      setOpen(true);
+
     } finally {
-      setLoading(false)
     }
   }
 
@@ -44,10 +50,10 @@ const Login = () => {
         onChange={(e) => setPassword(e.target.value)}
       />
       <Button variant='contained' sx={{ width: "100%", marginInline: "auto" }} onClick={handleLoginMagic}>
-        {!loading ? "Login" : <CircularProgress />}
+        Sign In
       </Button>
+      <AlertError open={open} onClose={handleClose} value={snackBarText} />
     </div>
   )
 }
-
-export default Login
+export default Login;

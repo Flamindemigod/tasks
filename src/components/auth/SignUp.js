@@ -1,24 +1,46 @@
 import { supabase } from '../../supabaseClient'
 import React, {useState} from 'react'
-import { TextField, Button, CircularProgress } from '@mui/material'
-
+import { TextField, Button } from '@mui/material'
+import AlertError from '../AlertError';
+import AlertInfo from '../AlertInfo';
 const SignUp = () => {
-    const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [openError, setOpenError] = useState(false);
+  const [openInfo, setOpenInfo] = useState(false);
+
+  const [snackBarText, setSnackBarText] = useState("")
+
+
+  const handleCloseError = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenError(false);
+  };
+
+  const handleCloseInfo = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenInfo(false);
+  };
+
 
   const handleSignUp = async (e) => {
     e.preventDefault()
 
     try {
-      setLoading(true)
       const { error } = await supabase.auth.signUp({ email, password })
       if (error) throw error
-      alert('Check your confirm email!')
+      setSnackBarText('Check your email!')
+      setOpenInfo(true)
     } catch (error) {
-      alert(error.error_description || error.message)
+      setSnackBarText(error.error_description || error.message)
+      setOpenError(true)
     } finally {
-      setLoading(false)
     }
   }
   return (
@@ -39,9 +61,12 @@ const SignUp = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+      <div className='text-sm text-end'>Password should be atleast 6 characters</div>
       <Button variant='contained' sx={{ width: "100%", marginInline: "auto" }} onClick={handleSignUp}>
-        {!loading ? "Sign Up" : <CircularProgress />}
+        Sign Up
       </Button>
+      <AlertError open={openError} onClose={handleCloseError} value={snackBarText} />
+      <AlertInfo open={openInfo} onClose={handleCloseInfo} value={snackBarText} />
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Login from './Login'
 import SignInGoogle from './SignInGoogle'
-import { Tabs, Tab, Box, Typography } from '@mui/material'
+import { Tabs, Tab, Box } from '@mui/material'
 import SignUp from './SignUp';
 
 function TabPanel(props) {
