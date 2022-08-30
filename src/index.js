@@ -3,13 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+//Redux Stuff
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
+import userReducer from "./features/user";
+//Mui DatePicker Stuff
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+
 const store = configureStore({
   reducer: {
-
+    user: userReducer,
   },
 })
 
