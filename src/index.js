@@ -5,7 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 const store = configureStore({
   reducer: {
 
@@ -16,9 +17,11 @@ const store = configureStore({
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <LocalizationProvider dateAdapter={AdapterMoment}>
     <Provider store={store}>
       <App />
     </Provider>
+    </LocalizationProvider>
   </React.StrictMode>
 );
 
