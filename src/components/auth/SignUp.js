@@ -1,15 +1,15 @@
 import { supabase } from '../../supabaseClient'
 import React, {useState} from 'react'
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, CircularProgress } from '@mui/material'
 import AlertError from '../AlertError';
 import AlertInfo from '../AlertInfo';
 const SignUp = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [openError, setOpenError] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
-
-  const [snackBarText, setSnackBarText] = useState("")
+  const [loading, setLoading] = useState(false);
+  const [snackBarText, setSnackBarText] = useState("");
 
 
   const handleCloseError = (event, reason) => {
@@ -33,6 +33,7 @@ const SignUp = () => {
     e.preventDefault()
 
     try {
+      setLoading(true);
       const { error } = await supabase.auth.signUp({ email, password })
       if (error) throw error
       setSnackBarText('Check your email!')
@@ -41,6 +42,7 @@ const SignUp = () => {
       setSnackBarText(error.error_description || error.message)
       setOpenError(true)
     } finally {
+      setLoading(false);
     }
   }
   return (
@@ -63,7 +65,7 @@ const SignUp = () => {
       />
       <div className='text-sm text-end'>Password should be atleast 6 characters</div>
       <Button variant='contained' sx={{ width: "100%", marginInline: "auto" }} onClick={handleSignUp}>
-        Sign Up
+      {loading ? <CircularProgress size={"25px"} /> : "Sign Up"}
       </Button>
       <AlertError open={openError} onClose={handleCloseError} value={snackBarText} />
       <AlertInfo open={openInfo} onClose={handleCloseInfo} value={snackBarText} />

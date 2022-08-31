@@ -1,14 +1,16 @@
 import React from 'react'
 import { useState } from 'react'
 import { supabase } from '../../supabaseClient'
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, CircularProgress } from '@mui/material'
 import AlertError from '../AlertError'
+import ForgotPasswordDialog from './ForgotPasswordDialog'
 const Login = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [open, setOpen] = useState(false);
-  const [snackBarText, setSnackBarText] = useState("")
-
+  const [snackBarText, setSnackBarText] = useState("");
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -17,17 +19,19 @@ const Login = () => {
     setOpen(false);
   };
 
-  const handleLoginMagic = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
 
     try {
+      setLoading(true);
       const { error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) throw error
     } catch (error) {
       setSnackBarText(error.error_description || error.message)
       setOpen(true);
 
-    } finally {
+    } finally{
+      setLoading(false);
     }
   }
 
@@ -49,10 +53,12 @@ const Login = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <Button variant='contained' sx={{ width: "100%", marginInline: "auto" }} onClick={handleLoginMagic}>
-        Sign In
+      <div className='text-sm text-end hover:underline underline-offset-2 cursor-pointer' onClick={()=>{setDialogOpen(true)}}>Forgot Password?</div>
+      <Button variant='contained' sx={{ width: "100%", marginInline: "auto" }} onClick={handleLogin}>
+        {loading ? <CircularProgress size={"25px"} /> : "Sign In"}
       </Button>
       <AlertError open={open} onClose={handleClose} value={snackBarText} />
+      <ForgotPasswordDialog open={dialogOpen} setOpen={setDialogOpen} />
     </div>
   )
 }
