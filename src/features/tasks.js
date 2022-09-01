@@ -23,7 +23,6 @@ export const tasksSlice = createSlice({
         deleteTask:(state, action) =>{
           console.log(state.value.tasks)
           state.value.tasks = state.value.tasks.filter((el)=>{if(el.taskid === action.payload.taskid){return false} return true})
-          //delete state.value.tasks[elementIndex];
         },
         unsetAll: (state, action) =>{
           state.value.tasks=[];
