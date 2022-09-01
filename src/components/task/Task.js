@@ -3,6 +3,7 @@ import { Box, Drawer, FormControl, TextField, FormLabel, Checkbox, RadioGroup, R
 import { DateTimePicker } from '@mui/x-date-pickers';
 import SubTasks from './SubTasks'
 import { Circle, CircleOutlined } from '@mui/icons-material';
+import DeleteTask from './DeleteTask';
 const Task = ({ open, setOpen, task, setTask, header = "", onSave }) => {
     return (
         <Drawer
@@ -25,6 +26,7 @@ const Task = ({ open, setOpen, task, setTask, header = "", onSave }) => {
                         value={task.title}
                         onChange={(e) => { setTask(state => ({ ...state, title: e.target.value })) }}
                     />
+                    {task.taskid ? <DeleteTask task={task} />:<></>}
                     </Box>
                 </FormControl>
                 {/* Task Priority */}
