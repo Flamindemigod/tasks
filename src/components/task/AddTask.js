@@ -14,6 +14,8 @@ const AddTask = () => {
   const [task, setTask] = useState({title: "", checked:false, priority: "On Deck", subtasks:[], startDate: moment.now(), endDate: moment.now() + 60*60*1000});
   
   const updateTasks = async () =>{
+    setDrawerOpen(false);
+    
     const taskID= uuidv4();
     setTask(state => ({...state, taskid:taskID }));
 
@@ -24,7 +26,6 @@ const AddTask = () => {
       console.error(error)
     }
     dispatch(addTask({...task, taskid: taskID}));
-    setDrawerOpen(false);
     setTask({title: "", priority: "On Deck", subtasks:[], startDate: moment.now(), endDate: moment.now() + 60*60*1000});
   }
 
