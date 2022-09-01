@@ -13,8 +13,17 @@ export const tasksSlice = createSlice({
             //action -> userObject
             state.value.tasks = [...state.value.tasks, action.payload];
         },
+        updateTask: (state, action) =>{
+          const elementIndex = state.value.tasks.findIndex((el)=>{if (el.taskid === action.payload.taskid) return true})
+          state.value.tasks[elementIndex] = action.payload
+        },
         getSupabaseData: (state, action) =>{
           state.value.tasks = action.payload;
+        },
+        deleteTask:(state, action) =>{
+          console.log(state.value.tasks)
+          state.value.tasks = state.value.tasks.filter((el)=>{if(el.taskid === action.payload.taskid){return false} return true})
+          //delete state.value.tasks[elementIndex];
         },
         unsetAll: (state, action) =>{
           state.value.tasks=[];
@@ -22,6 +31,6 @@ export const tasksSlice = createSlice({
     }
 });
 
-export const { addTask, getSupabaseData, unsetAll } = tasksSlice.actions;
+export const { addTask, updateTask,deleteTask, getSupabaseData, unsetAll } = tasksSlice.actions;
 
 export default tasksSlice.reducer;

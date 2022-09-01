@@ -1,9 +1,9 @@
 import React from 'react'
-import { Box, Drawer, FormControl, TextField, FormLabel, RadioGroup, Radio, FormControlLabel, Button } from '@mui/material';
+import { Box, Drawer, FormControl, TextField, FormLabel, Checkbox, RadioGroup, Radio, FormControlLabel, Button } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import SubTasks from './SubTasks'
-
-const Task = ({ open, setOpen, task, setTask, header = "" , onSave}) => {
+import { Circle, CircleOutlined } from '@mui/icons-material';
+const Task = ({ open, setOpen, task, setTask, header = "", onSave }) => {
     return (
         <Drawer
             anchor={"right"}
@@ -15,12 +15,17 @@ const Task = ({ open, setOpen, task, setTask, header = "" , onSave}) => {
                 <Box className='text-xl mb-4'>{header}</Box>
                 {/* Task Title */}
                 <FormControl fullWidth>
+                    <Box className='flex flex-row gap-4'>
+                    <Checkbox  icon={<CircleOutlined />} checkedIcon={<Circle />} checked={task.checked} onChange={(e) => { setTask(state => ({ ...state, checked: !state.checked })) }} />
                     <TextField
                         fullWidth
+                        multiline
+                        sx={{ textDecoration: task.checked ? "line-through" : "none" }}
                         label="Task Title"
                         value={task.title}
                         onChange={(e) => { setTask(state => ({ ...state, title: e.target.value })) }}
                     />
+                    </Box>
                 </FormControl>
                 {/* Task Priority */}
                 <FormControl fullWidth >
@@ -73,7 +78,7 @@ const Task = ({ open, setOpen, task, setTask, header = "" , onSave}) => {
                     </Box>
                 </FormControl>
                 <Box className='flex justify-end w-full p-4'>
-                    <Button  variant='contained' onClick={onSave}>Save Task</Button>
+                    <Button variant='contained' onClick={onSave}>Save Task</Button>
                 </Box>
             </Box>
         </Drawer>

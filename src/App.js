@@ -38,13 +38,12 @@ const App = () => {
       const getUserTasks = async (session) =>{
         let data = await supabase
         .from('tasks')
-        .select(`taskid, title, description, subtasks, startDate, endDate`)
+        .select(`taskid, checked,title, description, subtasks, startDate, endDate, priority`)
         .eq('uid', session.user.id)
         if (data.error && data.status !== 406) {
             console.error(data.error.message)
         }
         if (data.data) {
-          console.log(data.data)
           dispatch(getSupabaseData(data.data));
         }
     }

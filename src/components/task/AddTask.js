@@ -11,18 +11,19 @@ const AddTask = () => {
   const dispatch = useDispatch();
   const session = useSelector((state) => state.user.value);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [task, setTask] = useState({title: "", priority: "On Deck", subtasks:[], startDate: moment.now(), endDate: moment.now() + 60*60*1000});
+  const [task, setTask] = useState({title: "", checked:false, priority: "On Deck", subtasks:[], startDate: moment.now(), endDate: moment.now() + 60*60*1000});
   
   const updateTasks = async () =>{
     const taskID= uuidv4();
     setTask(state => ({...state, taskid:taskID }));
-    let { error } = await supabase.from('tasks').upsert({ uid: session.user.id,taskid:taskID, title: task.title, description: task.description, subtasks: task.subtasks, startDate:moment(task.startDate).toString(), endDate: moment(task.endDate).toString()}, {
+
+    let { error } = await supabase.from('tasks').upsert({ uid: session.user.id,taskid:taskID, checked: task.checked,title: task.title, description: task.description, subtasks: task.subtasks, startDate:moment(task.startDate).toString(), endDate: moment(task.endDate).toString(), priority: task.priority}, {
       returning: 'minimal', // Don't return the value after inserting
     })
     if (error) {
       console.error(error)
     }
-    dispatch(addTask(task));
+    dispatch(addTask({...task, taskid: taskID}));
     setDrawerOpen(false);
     setTask({title: "", priority: "On Deck", subtasks:[], startDate: moment.now(), endDate: moment.now() + 60*60*1000});
   }
