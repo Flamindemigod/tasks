@@ -7,6 +7,8 @@ import reportWebVitals from './reportWebVitals';
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import userReducer from "./features/user";
+import tasksReducer from "./features/tasks";
+
 //Mui DatePicker Stuff
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
@@ -14,6 +16,8 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 const store = configureStore({
   reducer: {
     user: userReducer,
+    tasks: tasksReducer,
+
   },
 })
 
