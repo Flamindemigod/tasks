@@ -1,0 +1,27 @@
+:root{
+    --OnDeck: rgb(246, 138, 138);
+    --Critical: rgb(180, 246, 171);
+    --DoNext: rgb(245, 246, 171);
+    --LowerPriority: rgb(171, 246, 246);
+
+
+}
+
+body{
+    min-height: 100vh;
+}
+
+.task{
+    animation-duration: 500ms;
+    animation-name: fadeIn;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+      }
+    
+      to {
+        opacity: 1;
+      }
+}
