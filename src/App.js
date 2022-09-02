@@ -34,7 +34,7 @@ const App = () => {
   }, [])
 
   useEffect(()=>{
-    if (session){
+    if (session.user.id){
       const getUserTasks = async (session) =>{
         let data = await supabase
         .from('tasks')

@@ -5,16 +5,17 @@ import AddTask from './task/AddTask';
 import DeleteTask from './task/DeleteTask';
 
 import {useSelector } from 'react-redux';
-import ViewTask from './task/ViewTask';
+import ViewTask from './views/listView/ViewTask';
+import ListView from './views/listView/ListView';
 const Main = () => {
-  const tasks = useSelector((state) => state.tasks.value.tasks);
     return (
         <>
             <Header />
             <div className='relative'>
-                
+                <ListView/>
                 <AddTask />
-                {tasks.map((task)=>(<div key={task.taskid}><ViewTask taskState={task}/> <DeleteTask task={task} /></div>))}
+
+                {/* {tasks.map((task)=>(<div key={task.taskid}><ViewTask taskState={task}/></div>))} */}
             </div>
             <Footer />
         </>

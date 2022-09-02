@@ -15,7 +15,7 @@ const SubTask = ({ index, task, setTask }) => {
     return (
         <>
         <Box className='flex w-full items-center gap-2'>
-            <Checkbox icon={<CircleOutlined />} checkedIcon={<Circle />} checked={checked} onChange={(e) => { setTask(state => ({ ...state, subtasks: state.subtasks.map((el, i) => ((i === index) ? { ...state.subtasks[i], checked: !checked } : el)) })) }} />
+            <Checkbox icon={<CircleOutlined />} checkedIcon={<Circle />} checked={checked} inputProps={{ 'aria-label': 'controlled' }} onChange={(e) => { setTask(state => ({ ...state, subtasks: state.subtasks.map((el, i) => ((i === index) ? { ...state.subtasks[i], checked: !checked } : el)) })) }} />
             <TextField fullWidth multiline sx={{ textDecoration: checked ? "line-through" : "none" }} value={task.subtasks[index].title} onChange={(e) => { setTask(state => ({ ...state, subtasks: state.subtasks.map((el, i) => ((i === index) ? { ...state.subtasks[i], title: e.target.value } : el)) })) }} />
             <Timer className='hover:text-blue-600' onClick={(e)=>{setMenuOpen(true); setMenuAnchor(e.currentTarget)}}/>
             <DeleteOutline className='hover:text-red-600' onClick={() => { setTask(state => ({ ...state, subtasks: state.subtasks.filter((subtask, i) => { return (i !== index ? subtask : null) }) })) }} />
