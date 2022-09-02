@@ -47,6 +47,7 @@ const SignUp = () => {
   }
   return (
     <div className='flex flex-col gap-2'>
+      
       <TextField
         label="Email"
         id="email"
