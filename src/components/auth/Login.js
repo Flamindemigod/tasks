@@ -30,33 +30,35 @@ const Login = () => {
       setSnackBarText(error.error_description || error.message)
       setOpen(true);
 
-    } finally{
+    } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className='flex flex-col gap-2 w-full'>
-      <TextField
-        label="Email"
-        id="email"
-        type="email"
-        placeholder="Your email address"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <TextField
-        label="Password"
-        id="password"
-        type="password"
-        placeholder="Your Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <div className='text-sm text-end hover:underline underline-offset-2 cursor-pointer' onClick={()=>{setDialogOpen(true)}}>Forgot Password?</div>
-      <Button variant='contained' sx={{ width: "100%", marginInline: "auto" }} onClick={handleLogin}>
-        {loading ? <CircularProgress size={"25px"} /> : "Sign In"}
-      </Button>
+    <div >
+      <form className='flex flex-col gap-2 w-full'>
+        <TextField
+          label="Email"
+          id="email"
+          type="email"
+          placeholder="Your email address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          label="Password"
+          id="password"
+          type="password"
+          placeholder="Your Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <div className='text-sm text-end hover:underline underline-offset-2 cursor-pointer' onClick={() => { setDialogOpen(true) }}>Forgot Password?</div>
+        <Button type="submit" variant='contained' sx={{ width: "100%", marginInline: "auto" }} onClick={handleLogin}>
+          {loading ? <CircularProgress size={"25px"} /> : "Sign In"}
+        </Button>
+      </form>
       <AlertError open={open} onClose={handleClose} value={snackBarText} />
       <ForgotPasswordDialog open={dialogOpen} setOpen={setDialogOpen} />
     </div>
