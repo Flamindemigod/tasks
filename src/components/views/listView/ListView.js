@@ -35,7 +35,6 @@ const ListView = () => {
 
         //Is in Priority Whitelist
         _sortedTasks = _sortedTasks.filter(el=>{
-            console.log(priorityWhitelist.includes(el.priority))
             return priorityWhitelist.includes(el.priority)
         })
 
