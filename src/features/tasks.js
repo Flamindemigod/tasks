@@ -14,7 +14,7 @@ export const tasksSlice = createSlice({
             state.value.tasks = [...state.value.tasks, action.payload];
         },
         updateTask: (state, action) =>{
-          const elementIndex = state.value.tasks.findIndex((el)=>{if (el.taskid === action.payload.taskid) return true})
+          const elementIndex = state.value.tasks.findIndex((el)=>{if (el.taskid === action.payload.taskid) {return true} return false})
           state.value.tasks[elementIndex] = action.payload
         },
         getSupabaseData: (state, action) =>{

@@ -5,7 +5,7 @@ import { Google } from '@mui/icons-material'
 const SignInGoogle = () => {
     const handleLoginGoogle = async (e) => {
         try {
-          const { user, session, error } = await supabase.auth.signInWithOAuth({
+          const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
           })
           if (error) throw error

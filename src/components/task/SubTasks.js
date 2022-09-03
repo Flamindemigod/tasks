@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Checkbox, FormControl, FormLabel, IconButton, Menu, TextField, Typography } from '@mui/material'
+import { Box, Checkbox, FormControl, FormLabel, IconButton, Menu, TextField } from '@mui/material'
 import { Add, Circle, CircleOutlined, DeleteOutline, Timer } from '@mui/icons-material';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import moment from 'moment';
@@ -11,6 +11,7 @@ const SubTask = ({ index, task, setTask }) => {
 
     useEffect(() => {
         setChecked(task.subtasks[index].checked);
+        // eslint-disable-next-line
     }, [task.subtasks]);
     return (
         <>

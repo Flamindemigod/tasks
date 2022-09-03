@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import moment from 'moment';
 import Task from '../../task/Task';
 
@@ -10,12 +10,13 @@ const ViewTask = ({ taskState }) => {
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     useEffect(() => {
-        setTask(tasks[tasks.findIndex((el) => { if (el.taskid === taskState.taskid) return true })]);
+        setTask(tasks[tasks.findIndex((el) => { if (el.taskid === taskState.taskid) {return true} return false })]);
+        // eslint-disable-next-line
     }, [taskState]);
 
     return (
         <>
-            <Box sx={{minHeight: "7rem", backgroundColor: `var(--${taskState.priority.replace(/\s/gm, "")}, lime)`, opacity: taskState.checked ? "50%" : "100%" }} onClick={() => { setDrawerOpen(true) }} className='p-8 pb-16 relative w-full rounded-lg'>
+            <Box sx={{minHeight: "10rem", backgroundColor: `var(--${taskState.priority.replace(/\s/gm, "")}, lime)`, opacity: taskState.checked ? "50%" : "100%" }} onClick={() => { setDrawerOpen(true) }} className='p-8 pb-16 relative w-full rounded-lg'>
                 <div className="flex gap-2 items-end">
                     <div className='text-lg font-semibold'>
                         {taskState.title}
