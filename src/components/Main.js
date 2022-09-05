@@ -16,8 +16,8 @@ const Main = () => {
             <div className='relative'>
                 <div className="ml-auto mr-40 w-min">
                     <ButtonGroup variant="outlined" aria-label="outlined primary button group view-selector">
-                        <Button variant={!view ? "contained" : "outlined"} onClick={()=>{setView(false)}}><ListIcon /></Button>
-                        <Button variant={view ? "contained" : "outlined"} onClick={()=>{setView(true)}}><CalendarTodayIcon /></Button>
+                        <Button aria-label='Task List View' variant={!view ? "contained" : "outlined"} onClick={()=>{setView(false)}}><ListIcon /></Button>
+                        <Button aria-label='Task Calender View' variant={view ? "contained" : "outlined"} onClick={()=>{setView(true)}}><CalendarTodayIcon /></Button>
                     </ButtonGroup>
                 </div>
                 <Box sx={{ minHeight: "80vh" }}>
