@@ -9,7 +9,7 @@ const Main = () => {
         <>
             <Header />
             <div className='relative'>
-                {/* <ListView/> */}
+                <ListView/>
                 <CalenderView />
                 <AddTask />
 

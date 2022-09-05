@@ -8,7 +8,7 @@ import { getSupabaseData, unsetAll } from "./features/tasks";
 import { getParamsByName } from './misc/getParamsByName';
 import { supabase } from './supabaseClient'
 import Main from "./components/Main";
-
+import moment from 'moment-timezone';
 
 
 const App = () => {

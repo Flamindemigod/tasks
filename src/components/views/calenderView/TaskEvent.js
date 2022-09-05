@@ -44,12 +44,13 @@ const TaskEvent = ({ task, currentDate }) => {
     <>
       <Box
         onClick={() => { setDrawerOpen(true) }}
-        className="absolute w-full rounded-md"
+        className="absolute w-full rounded-md overflow-auto"
         sx={{
           backgroundColor: `var(--${task.priority.replace(/\s/gm, "")})`,
           top: `${getTop(task.startDate, moment(currentDate).clone())}px`,
           height: `${getHeight(task.startDate, task.endDate, moment(currentDate).clone())}px`,
-          minHeight:"70px"
+          minHeight:"30px",
+          opacity: task.checked ? "0.5": "1"
         }}
       >
         <div className="flex">
@@ -59,7 +60,7 @@ const TaskEvent = ({ task, currentDate }) => {
           </div>
         </div>
         <div>{task.taskSubtask}</div>
-
+        <div>Lasts {moment.duration(moment(task.endDate).diff(task.startDate)).humanize()}</div>
       </Box>
       <Task open={drawerOpen} setOpen={setDrawerOpen} task={taskState} setTask={setTaskState} header="View Task" />
     </>

@@ -21,7 +21,6 @@ export const tasksSlice = createSlice({
           state.value.tasks = action.payload;
         },
         deleteTask:(state, action) =>{
-          console.log(state.value.tasks)
           state.value.tasks = state.value.tasks.filter((el)=>{if(el.taskid === action.payload.taskid){return false} return true})
         },
         unsetAll: (state, action) =>{

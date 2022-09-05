@@ -26,7 +26,6 @@ const ListView = () => {
             }
         }
         _sortedTasks.sort((a, b) => (moment(a.startDate) - moment(b.startDate)))
-
         // Filters
         //Is Completed
         if (!showCompleted) {

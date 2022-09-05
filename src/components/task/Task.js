@@ -9,12 +9,22 @@ import { v4 as uuidv4 } from 'uuid';
 import { addTask, updateTask } from "../../features/tasks"
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import AlertError from "../AlertError";
+
+
+moment.fn.toJSON = function() {
+    return this.toISOString(true);
+  };
 
 const Task = ({ open, setOpen, task, setTask, header = "" }) => {
     const dispatch = useDispatch();
     const session = useSelector((state) => state.user.value);
 
     const upsertTask = async () => {
+        if (!task.title){
+
+            return
+        }
         setOpen(false);
         const taskID = task.taskid || uuidv4();
         const upsert = task.taskid ? updateTask : addTask
@@ -28,6 +38,7 @@ const Task = ({ open, setOpen, task, setTask, header = "" }) => {
         setTask({ taskid: null, title: "", description: "", priority: "On Deck", subtasks: [], startDate: moment.now(), endDate: moment.now() + 60 * 60 * 1000 });
     }
     return (
+        <>
         <Drawer
             anchor={"right"}
             open={open}
@@ -96,7 +107,7 @@ const Task = ({ open, setOpen, task, setTask, header = "" }) => {
                                 label="Start Date and Time"
                                 value={task.startDate}
                                 inputFormat="DD/MM/yyyy HH:mm"
-                                onChange={(val) => { setTask(state => ({ ...state, startDate: val })) }}
+                                onChange={(val) => { setTask(state => ({ ...state, startDate: moment(val).tz(moment.tz.guess()) })) }}
                                 renderInput={(params) => <TextField {...params} />}
                             />
 
@@ -104,7 +115,7 @@ const Task = ({ open, setOpen, task, setTask, header = "" }) => {
                                 label="End Date and Time"
                                 value={task.endDate}
                                 inputFormat="DD/MM/yyyy HH:mm"
-                                onChange={(val) => { setTask(state => ({ ...state, endDate: val })) }}
+                                onChange={(val) => { setTask(state => ({ ...state, endDate: moment(val) })) }}
                                 renderInput={(params) => <TextField {...params} />}
                             />
                         </Box>
@@ -115,6 +126,8 @@ const Task = ({ open, setOpen, task, setTask, header = "" }) => {
                 </Box>
             </Box>
         </Drawer>
+        <AlertError />
+        </>
     )
 }
 

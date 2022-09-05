@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import Calender from './Calender';
+import { Box, FormControlLabel, Checkbox, FormControl, Autocomplete, TextField } from '@mui/material';
 
 const CalenderView = () => {
     const tasks = useSelector((state) => state.tasks.value.tasks);
@@ -54,9 +55,41 @@ const CalenderView = () => {
     }
     useEffect(sortTasks, [tasks, showCompleted, startDate, endDate, priorityWhitelist])
     return (
-        <div>
+        <div className='flex flex-col gap-8 md:flex-row justify-center items-center md:items-start w-full'>
+            <div>
+                    <div className='text-xl'>Task Filters</div>
+                    <div className="flex flex-col gap-8">
+                        <FormControlLabel
+                            value="end"
+                            control={<Checkbox checked={showCompleted} onChange={() => { setShowCompleted(state => !state) }} />}
+                            label="Show Completed"
+                            labelPlacement="end"
+                        />
+                        <FormControl>
+                            <Autocomplete
+                            sx={{maxWidth:"16rem"}}
+                                multiple
+                                id="tags-standard"
+                                options={["Critical", "Do Next", "Lower Priority", "On Deck"]}
+                                value={priorityWhitelist}
+                                onChange={(e, newVal)=>{setPriorityWhitelist(newVal)}}
+                                getOptionLabel={(option) => option}
+                                defaultValue={["Critical", "Do Next", "Lower Priority", "On Deck"]}
+                                renderInput={(params) => (
+                                    <TextField
+                                        multiline
+                                        {...params}
+                                        variant="standard"
+                                        label="Priority"
+                                    />
+                                )}
+                            />
+                        </FormControl>
+                    </div>
+                </div>
+            <Box className="overflow-y-scroll overflow-x-visible" sx={{height: "80vh", width:"clamp(15rem, 100%, 60rem)"}}>
             <Calender tasks={sortedTasks} startDate={startDate} endDate={endDate}/>
-
+            </Box>
 
         </div>
     )

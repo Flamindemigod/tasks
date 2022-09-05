@@ -33,7 +33,7 @@ const ViewTask = ({ taskState }) => {
                 </div>
                 <div className='text-xs absolute bottom-2 right-2 p-4'>
                     <div className="text-end">Lasts {moment.duration(moment(taskState.endDate) - moment(taskState.startDate)).humanize()}</div>
-                    <div className="">{`${moment(taskState.startDate).format("DD MMMM hh:mm a")} - ${moment(taskState.endDate).format("DD MMMM hh:mm a")}`}</div>
+                    <div className="">{`${moment(taskState.startDate).format("DD MMM hh:mm a")} - ${moment(taskState.endDate).format("DD MMM hh:mm a")}`}</div>
                 </div>
             </Box>
             <Task open={drawerOpen} setOpen={setDrawerOpen} task={task} setTask={setTask} header="View Task" />
