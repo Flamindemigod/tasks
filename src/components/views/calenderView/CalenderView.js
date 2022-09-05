@@ -7,7 +7,7 @@ import { Box, FormControlLabel, Checkbox, FormControl, Autocomplete, TextField }
 const CalenderView = () => {
     const tasks = useSelector((state) => state.tasks.value.tasks);
     const [sortedTasks, setSortedTasks] = useState([]);
-    const [showCompleted, setShowCompleted] = useState(true);
+    const [showCompleted, setShowCompleted] = useState(false);
     const [startDate, setStartDate] = useState(moment());
     const [endDate, setEndDate] = useState(moment());
     const [priorityWhitelist, setPriorityWhitelist] = useState(["Critical", "Do Next", "Lower Priority", "On Deck"]);
