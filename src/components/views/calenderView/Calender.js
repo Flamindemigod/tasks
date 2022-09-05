@@ -7,7 +7,7 @@ const Calender = ({ tasks, startDate, endDate, setStartDate, setEndDate }) => {
   const clonedStart = startDate.clone()
   return (
     <Box className="grid relative" sx={{gridTemplateColumns:"45px 1fr", width: "clamp(15rem, 100%, 60rem)"}}>
-      <Box className='absolute inset-0 top-10 -z-10 grid grid-cols-1' sx={{justifyItems:"end", gridTemplateRows: "repeat(24, 60px)"}}>
+      <Box className='absolute inset-0 top-10 lg:top-7 -z-10 grid grid-cols-1' sx={{justifyItems:"end", gridTemplateRows: "repeat(24, 60px)"}}>
         {[...Array(24).keys()].map(
           index => (
             <Box className='border-black border border-x-0 text-sm' sx={{width:"calc(100% - 45px)"}}></Box>
