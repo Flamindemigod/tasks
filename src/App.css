@@ -1,52 +1,51 @@
-:root{
-    --OnDeck: rgb(246, 138, 138);
-    --Critical: rgb(180, 246, 171);
-    --DoNext: rgb(245, 246, 171);
-    --LowerPriority: rgb(171, 246, 246);
-    --clr-primary: #42a5f5;
+:root {
+  --Critical: rgb(246, 138, 138);
+  --OnDeck: rgb(180, 246, 171);
+  --DoNext: rgb(245, 246, 171);
+  --LowerPriority: rgb(171, 246, 246);
+  --clr-primary: #42a5f5;
 
 }
 
-body{
-    min-height: 100vh;
+body {
+  min-height: 100vh;
 }
 
-.task{
-    animation-duration: 500ms;
-    animation-name: fadeIn;
+.task {
+  animation-duration: 500ms;
+  animation-name: fadeIn;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-      }
-    
-      to {
-        opacity: 1;
-      }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 * {
-    --scrollbar-foreground: var(--clr-primary);
-    --scrollbar-background: var(--clr-secondary);
-    /* Foreground, Background */
-    scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
-  }
-  
-  *::-webkit-scrollbar {
-    width: 10px;
-    /* Mostly for vertical scrollbars */
-    height: 7px;
-    /* Mostly for horizontal scrollbars */
-  }
-  
-  *::-webkit-scrollbar-thumb {
-    /* Foreground */
-    background: var(--scrollbar-foreground);
-  }
-  
-  *::-webkit-scrollbar-track {
-    /* Background */
-    background: var(--scrollbar-background);
-  }
-  
+  --scrollbar-foreground: var(--clr-primary);
+  --scrollbar-background: var(--clr-secondary);
+  /* Foreground, Background */
+  scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  /* Mostly for vertical scrollbars */
+  height: 7px;
+  /* Mostly for horizontal scrollbars */
+}
+
+*::-webkit-scrollbar-thumb {
+  /* Foreground */
+  background: var(--scrollbar-foreground);
+}
+
+*::-webkit-scrollbar-track {
+  /* Background */
+  background: var(--scrollbar-background);
+}
