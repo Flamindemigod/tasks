@@ -9,12 +9,24 @@ import { v4 as uuidv4 } from 'uuid';
 import { addTask, updateTask } from "../../features/tasks"
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import AlertError from "../AlertError";
+import { useState } from 'react';
+
+
+moment.fn.toJSON = function() {
+    return this.toISOString(true);
+  };
 
 const Task = ({ open, setOpen, task, setTask, header = "" }) => {
     const dispatch = useDispatch();
     const session = useSelector((state) => state.user.value);
+    const [alertOpen, setAlertOpen] = useState(false);
 
     const upsertTask = async () => {
+        if (!task.title){
+            setAlertOpen(true);
+            return
+        }
         setOpen(false);
         const taskID = task.taskid || uuidv4();
         const upsert = task.taskid ? updateTask : addTask
@@ -28,6 +40,7 @@ const Task = ({ open, setOpen, task, setTask, header = "" }) => {
         setTask({ taskid: null, title: "", description: "", priority: "On Deck", subtasks: [], startDate: moment.now(), endDate: moment.now() + 60 * 60 * 1000 });
     }
     return (
+        <>
         <Drawer
             anchor={"right"}
             open={open}
@@ -104,7 +117,7 @@ const Task = ({ open, setOpen, task, setTask, header = "" }) => {
                                 label="End Date and Time"
                                 value={task.endDate}
                                 inputFormat="DD/MM/yyyy HH:mm"
-                                onChange={(val) => { setTask(state => ({ ...state, endDate: val })) }}
+                                onChange={(val) => { if (val >= task.startDate) setTask(state => ({ ...state, endDate: val })) }}
                                 renderInput={(params) => <TextField {...params} />}
                             />
                         </Box>
@@ -115,6 +128,8 @@ const Task = ({ open, setOpen, task, setTask, header = "" }) => {
                 </Box>
             </Box>
         </Drawer>
+        <AlertError open={alertOpen} onClose={()=>{setAlertOpen(false)}} value="Task Must have a title"/>
+        </>
     )
 }
 

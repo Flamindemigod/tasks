@@ -8,7 +8,7 @@ import { getSupabaseData, unsetAll } from "./features/tasks";
 import { getParamsByName } from './misc/getParamsByName';
 import { supabase } from './supabaseClient'
 import Main from "./components/Main";
-
+import moment from 'moment-timezone';
 
 
 const App = () => {
@@ -18,9 +18,9 @@ const App = () => {
 
   useEffect(() => {
     if (getParamsByName("type") === "recovery") {
-      console.log("test")
       setShowResetPassword(true);
     }
+    // eslint-disable-next-line
   }, [window.location.href])
 
   useEffect(() => {
@@ -31,6 +31,7 @@ const App = () => {
     supabase.auth.onAuthStateChange((_event, session) => {
       dispatch(setUser(session));
     })
+    // eslint-disable-next-line
   }, [])
 
   useEffect(()=>{
@@ -53,6 +54,7 @@ const App = () => {
     else{
       dispatch(unsetAll());
     }
+    // eslint-disable-next-line
   }, [session])
 
   return (

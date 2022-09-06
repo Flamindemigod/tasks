@@ -1,17 +1,22 @@
-import { useState, useEffect } from 'react'
-import ViewTask from './ViewTask'
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Autocomplete, Box, Checkbox, FormControl, FormControlLabel, TextField } from '@mui/material';
 import moment from 'moment';
-import { DateTimePicker } from '@mui/x-date-pickers';
-const ListView = () => {
+import Calender from './Calender';
+import { Box, FormControlLabel, Checkbox, FormControl, Autocomplete, TextField, Button } from '@mui/material';
+import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
+
+const CalenderView = () => {
     const tasks = useSelector((state) => state.tasks.value.tasks);
     const [sortedTasks, setSortedTasks] = useState([]);
     const [showCompleted, setShowCompleted] = useState(false);
-    const [startDate, setStartDate] = useState(moment({ hour: 0 }));
-    const [endDate, setEndDate] = useState(moment({ hour: 23, minute: 59, second: 59 }));
+    const [startDate, setStartDate] = useState(moment());
+    const [endDate, setEndDate] = useState(moment());
     const [priorityWhitelist, setPriorityWhitelist] = useState(["Critical", "Do Next", "Lower Priority", "On Deck"]);
 
+    useEffect(()=>{
+        setStartDate(moment().weekday(0).startOf("day"));
+        setEndDate(moment().weekday(6).endOf("day"))
+    }, [])
 
     const sortTasks = () => {
         const _tasks = tasks;
@@ -26,6 +31,7 @@ const ListView = () => {
             }
         }
         _sortedTasks.sort((a, b) => (moment(a.startDate) - moment(b.startDate)))
+
         // Filters
         //Is Completed
         if (!showCompleted) {
@@ -33,28 +39,25 @@ const ListView = () => {
         }
 
         //Is in Priority Whitelist
-        _sortedTasks = _sortedTasks.filter(el=>{
+        _sortedTasks = _sortedTasks.filter(el => {
             return priorityWhitelist.includes(el.priority)
         })
 
 
         //Is Within Date range
         _sortedTasks = _sortedTasks.filter(el => {
-            if (moment(el.startDate).isBetween(startDate, endDate) || moment(el.endDate).isBetween(startDate, endDate) || moment(startDate).isBetween(el.startDate, el.endDate)) {
+            if (moment(el.startDate).isBetween(startDate, endDate, "[]") || moment(el.endDate).isBetween(startDate, endDate, "[]") || moment(startDate).isBetween(el.startDate, el.endDate, "[]")) {
                 return true
             }
             return false
         })
-        
+
         setSortedTasks(_sortedTasks)
     }
     useEffect(sortTasks, [tasks, showCompleted, startDate, endDate, priorityWhitelist])
     return (
-        <>
-
-            <Box className='flex flex-col md:flex-row justify-center items-center md:items-start w-full '>
-                {/* Task Filters */}
-                <div>
+        <div className='flex flex-col gap-8 md:flex-row justify-center items-center md:items-start w-full'>
+            <div>
                     <div className='text-xl'>Task Filters</div>
                     <div className="flex flex-col gap-8">
                         <FormControlLabel
@@ -83,34 +86,25 @@ const ListView = () => {
                                 )}
                             />
                         </FormControl>
-                        <FormControl>
-                            <DateTimePicker
-                                label="Start Date and Time"
-                                value={startDate}
-                                inputFormat="DD/MM/yyyy HH:mm"
-                                onChange={(val) => { setStartDate(val) }}
-                                renderInput={(params) => <TextField {...params} />}
-                            />
-                        </FormControl>
-                        <FormControl>
-                            <DateTimePicker
-                                label="End Date and Time"
-                                value={endDate}
-                                inputFormat="DD/MM/yyyy HH:mm"
-                                onChange={(val) => { setEndDate(val) }}
-                                renderInput={(params) => <TextField {...params} />}
-                            />
-                        </FormControl>
                     </div>
                 </div>
-                <Box sx={{ width: "clamp(15rem, 100%, 60rem)" }} className='p-8 flex flex-col gap-4 items-center'>
-                    {sortedTasks.map((task) => (<div className="w-full task" key={`${task.taskid}-${task.subTaskid}`}>
-                        <ViewTask taskState={task} />
-                    </div>))}
-                </Box>
+            <div className="w-full">
+                <div className='flex w-full justify-center items-center'>
+                    <Button onClick={()=>{setStartDate(state => (state.clone().subtract(7, "d"))); setEndDate(state => (state.clone().subtract(7, "d")))}}>
+                        <ArrowBackIos />
+                    </Button>
+                    <div>
+                        {`${startDate.format("DD MMM YYYY")} - ${endDate.format("DD MMM YYYY")}`}
+                    </div>
+                    <Button onClick={()=>{setStartDate(state => (state.clone().add(7, "d"))); setEndDate(state => (state.clone().add(7, "d")))}}>
+                        <ArrowForwardIos />
+                    </Button>
+                </div>
+                <Calender tasks={sortedTasks} startDate={startDate} endDate={endDate}/>
+            </div>
 
-            </Box>
-        </>)
+        </div>
+    )
 }
 
-export default ListView
+export default CalenderView
