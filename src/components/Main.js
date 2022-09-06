@@ -14,14 +14,15 @@ const Main = () => {
         <>
             <Header />
             <div className='relative'>
-                <div className="ml-auto mr-10 sm:mr-40 w-min">
-                    <ButtonGroup variant="outlined" aria-label="outlined primary button group view-selector">
-                        <Button aria-label='Task List View' variant={!view ? "contained" : "outlined"} onClick={()=>{setView(false)}}><ListIcon /></Button>
-                        <Button aria-label='Task Calender View' variant={view ? "contained" : "outlined"} onClick={()=>{setView(true)}}><CalendarTodayIcon /></Button>
+                <Box className='flex flex-col justify-center items-center'>
+                  
+                    <Box className="flex flex-col gap-4" sx={{ minHeight: "80vh", width: "min(95%, 80rem)" }} >
+                    <ButtonGroup className="self-end" variant="outlined" aria-label="outlined primary button group view-selector">
+                        <Button aria-label='Task List View' variant={!view ? "contained" : "outlined"} onClick={() => { setView(false) }}><ListIcon /></Button>
+                        <Button aria-label='Task Calender View' variant={view ? "contained" : "outlined"} onClick={() => { setView(true) }}><CalendarTodayIcon /></Button>
                     </ButtonGroup>
-                </div>
-                <Box sx={{ minHeight: "80vh" }}>
-                    {view ? <CalenderView /> : <ListView />}
+                        {view ? <CalenderView /> : <ListView />}
+                        </Box>
                 </Box>
                 <AddTask />
 

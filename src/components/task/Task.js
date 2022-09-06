@@ -10,6 +10,7 @@ import { addTask, updateTask } from "../../features/tasks"
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import AlertError from "../AlertError";
+import { useState } from 'react';
 
 
 moment.fn.toJSON = function() {
@@ -19,10 +20,11 @@ moment.fn.toJSON = function() {
 const Task = ({ open, setOpen, task, setTask, header = "" }) => {
     const dispatch = useDispatch();
     const session = useSelector((state) => state.user.value);
+    const [alertOpen, setAlertOpen] = useState(false);
 
     const upsertTask = async () => {
         if (!task.title){
-
+            setAlertOpen(true);
             return
         }
         setOpen(false);
@@ -107,7 +109,7 @@ const Task = ({ open, setOpen, task, setTask, header = "" }) => {
                                 label="Start Date and Time"
                                 value={task.startDate}
                                 inputFormat="DD/MM/yyyy HH:mm"
-                                onChange={(val) => { setTask(state => ({ ...state, startDate: moment(val).tz(moment.tz.guess()) })) }}
+                                onChange={(val) => { setTask(state => ({ ...state, startDate: val })) }}
                                 renderInput={(params) => <TextField {...params} />}
                             />
 
@@ -115,7 +117,7 @@ const Task = ({ open, setOpen, task, setTask, header = "" }) => {
                                 label="End Date and Time"
                                 value={task.endDate}
                                 inputFormat="DD/MM/yyyy HH:mm"
-                                onChange={(val) => { setTask(state => ({ ...state, endDate: moment(val) })) }}
+                                onChange={(val) => { if (val >= task.startDate) setTask(state => ({ ...state, endDate: val })) }}
                                 renderInput={(params) => <TextField {...params} />}
                             />
                         </Box>
@@ -126,7 +128,7 @@ const Task = ({ open, setOpen, task, setTask, header = "" }) => {
                 </Box>
             </Box>
         </Drawer>
-        <AlertError />
+        <AlertError open={alertOpen} onClose={()=>{setAlertOpen(false)}} value="Task Must have a title"/>
         </>
     )
 }

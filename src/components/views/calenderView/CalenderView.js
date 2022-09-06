@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import Calender from './Calender';
-import { Box, FormControlLabel, Checkbox, FormControl, Autocomplete, TextField } from '@mui/material';
+import { Box, FormControlLabel, Checkbox, FormControl, Autocomplete, TextField, Button } from '@mui/material';
+import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
 
 const CalenderView = () => {
     const tasks = useSelector((state) => state.tasks.value.tasks);
@@ -87,9 +88,20 @@ const CalenderView = () => {
                         </FormControl>
                     </div>
                 </div>
-            <Box className="overflow-y-scroll overflow-x-visible" sx={{height: "80vh", width:"clamp(15rem, 100%, 60rem)"}}>
-            <Calender tasks={sortedTasks} startDate={startDate} endDate={endDate}/>
-            </Box>
+            <div className="w-full">
+                <div className='flex w-full justify-center items-center'>
+                    <Button onClick={()=>{setStartDate(state => (state.clone().subtract(7, "d"))); setEndDate(state => (state.clone().subtract(7, "d")))}}>
+                        <ArrowBackIos />
+                    </Button>
+                    <div>
+                        {`${startDate.format("DD MMM YYYY")} - ${endDate.format("DD MMM YYYY")}`}
+                    </div>
+                    <Button onClick={()=>{setStartDate(state => (state.clone().add(7, "d"))); setEndDate(state => (state.clone().add(7, "d")))}}>
+                        <ArrowForwardIos />
+                    </Button>
+                </div>
+                <Calender tasks={sortedTasks} startDate={startDate} endDate={endDate}/>
+            </div>
 
         </div>
     )
